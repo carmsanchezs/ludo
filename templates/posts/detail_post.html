@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block head_content %}
+    <title>Ludo Posts</title>
+{% endblock head_content %}
+
+
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            <h2 class="ml-1 mt-1">{{ post.title }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="{{ post.url_reference }}" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="row">          
+            <div class="col">
+                <p class="text-justify">
+                    {{ post.content|linebreaksbr }}
+                </p>
+            <div>
+        <div>
+        <div class="row">
+            <div class="col">
+                <h6 class="mr-3 mt-1 text-right">@{{ post.user.username }}</h6>
+            </div>
+        </div>
+        <hr>
+        
+        <h6>Nuevo comentario</h6>
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Enviar</button>
+        </form>
+
+        <hr>
+        {% for comment in post.comments.all %}
+            <div class="comment">
+                <p>{{ comment.text|linebreaks }}</p>
+                <div class="date">{{ comment.created }}</div>
+                <strong>{% if comment.profile %}{{ comment.profile }}{% else %}Anónimo{% endif %}</strong>
+            </div>
+        {% empty %}
+            <p> Sin comentarios </p>
+        {% endfor %}
+    </div>
+{% endblock container %}

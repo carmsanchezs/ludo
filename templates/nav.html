@@ -1,0 +1,26 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
+    <div class="container">
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <a class="navbar-brand pr-5" style="border-right: 1px solid #efefef;" href="{% url 'posts:list_posts'%}">
+                    <img src="{% static "img/logo_ludo.png" %}" height="75" class="d-inline-block align-top"/>
+                </a>
+            </ul>
+
+            <form method="GET" class="form-inline">
+                <input 
+                    class="form-control mr-sm-2" 
+                    name="q"
+                    value="{{ request.GET.q }}"
+                    type="search" 
+                    placeholder="Buscar" 
+                    aria-label="Search"
+                >
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+            </form>
+
+        </div>
+    </div>
+</nav>

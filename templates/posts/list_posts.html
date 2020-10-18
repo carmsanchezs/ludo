@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block head_content %}
+    <title>Ludo Posts</title>
+{% endblock head_content %}
+
+{% block container %}
+
+    <div class="content-img">
+        {% load static %}
+        <img src="{% static "img/img_main.jpg" %}" class="card-img-top image" alt="Ludo"></img>
+        <button type="button" class="btn btn-info btn-abs" data-toggle="modal" data-target="#moreInfo">Más información</button>
+    </div>
+
+    <!-- Modal -->
+    <div id="moreInfo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+        <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Información</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Información a detalle.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container list_posts">
+        <div class="row">
+            {% for post in page_objects %}
+                <div class="col text-center mt-3">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ post.photo.url }}" class="card-img-top image" alt="{{ post.title }}">
+                        <div class="card-body" >
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <h6 class="mr-3 mt-1">{{ post.labels }}</h6>
+                            <h6 class="mr-3 mt-1">@{{ post.user.username }}</h6>
+                            <a href="{% url 'posts:detail' pk=post.pk %}" class="btn btn-primary">
+                                Más detalles
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_objects.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        &laquo;
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_objects.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        anterior
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item current">
+                <a class="page-link">Page {{ page_objects.number }} of {{ page_objects.paginator.num_pages }}</a>
+            </li>
+
+            {% if page_objects.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_objects.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        siguiente
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_objects.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                         &raquo;
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    
+{% endblock container %}
+
